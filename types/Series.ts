@@ -1,0 +1,1 @@
+export type SupportedSeries = "Scarlet & Violet" | "Sword & Shield" | "Sun & Moon"
