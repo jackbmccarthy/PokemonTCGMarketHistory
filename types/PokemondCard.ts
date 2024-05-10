@@ -7,9 +7,9 @@ export type PokemonCardType = {
     rarity: string,
     regulationmark: string | null |undefined,
     imageurl: string,
-    tcgplayerurl: string| null |undefined,
-    tcgplayerpricedate: string| null |undefined,
-    tcgplayernormalprice: number| null |undefined,
-    tcgplayerreverseholoprice: number| null |undefined,
-    tcgplayerholofoilprice:number| null |undefined
+    tcgplayerurl?: string| null |undefined,
+    tcgplayerpricedate?: string| null |undefined,
+    tcgplayernormalprice?: number| null |undefined,
+    tcgplayerreverseholoprice?: number| null |undefined,
+    tcgplayerholofoilprice?:number| null |undefined
 }
