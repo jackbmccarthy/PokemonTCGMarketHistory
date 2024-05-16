@@ -20,4 +20,25 @@ export const PokemonCards = sequelize.define('PokemonCards', {
     tcgplayerholofoilprice: DataTypes.FLOAT
 });
 
+export const MarketChanges = sequelize.define('MarketChanges', {
+    marketchangeuuid:DataTypes.UUIDV4,
+    pricedate:DataTypes.DATE,
+    cardid: DataTypes.STRING,
+    cardtype:DataTypes.STRING,
+    startcarduuid1: DataTypes.UUIDV4,
+    endcarduuid1:DataTypes.UUIDV4,
+    startcarduuid7: DataTypes.UUIDV4,
+    endcarduuid7:DataTypes.UUIDV4,
+    startcarduuid30: DataTypes.UUIDV4,
+    endcarduuid30:DataTypes.UUIDV4,
+    pricechangedollars1: DataTypes.FLOAT,
+    pricechangepercent1: DataTypes.FLOAT,
+    pricechangedollars7: DataTypes.FLOAT,
+    pricechangepercent7: DataTypes.FLOAT,
+    pricechangedollars30: DataTypes.FLOAT,
+    pricechangepercent30: DataTypes.FLOAT,
+    
+    
+});
+
 sequelize.sync()
