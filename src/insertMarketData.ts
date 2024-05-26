@@ -39,10 +39,21 @@ export default async function insertMarketData(dailyMarketData: DailyMarketData)
                 marketChanges.pricechangepercent30 = -1 * parseFloat(data.holoPriceChangePercent)
             }
 
+            let existingCount = await MarketChanges.count({
+                where:{
+                    priceDate: marketChanges.pricedate,
+                    cardid:marketChanges.cardid
+                }
+            })
+            if(existingCount === 0){
+               const insertedChanges = await MarketChanges.create(marketChanges) 
+               return insertedChanges
+            }
+            else{
+                return false
+            }
             
-            const insertedChanges = await MarketChanges.create(marketChanges)
-            //console.log(insertedChanges.toJSON())
-            return insertedChanges
+           
         
     }
 
