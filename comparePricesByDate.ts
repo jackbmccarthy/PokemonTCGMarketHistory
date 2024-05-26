@@ -113,7 +113,7 @@ async function runMarketWatcher() {
         if (cardCount > 0) {
             const cardIDList = await getAllCardsOnDate(latestDate)
             for (const cardid of cardIDList) {
-                return await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
+                 await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
 
             }
         }
