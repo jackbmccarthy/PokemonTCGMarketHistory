@@ -123,6 +123,7 @@ async function runMarketWatcher() {
             const cardIDList = await getAllCardsOnDate(latestDate)
             console.log("The length of the list of cards",cardIDList.length)
             await Promise.all([cardIDList.map(async (cardid)=>{
+                console.log("processing", cardid["cardid"])
                  await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
 
             })])
