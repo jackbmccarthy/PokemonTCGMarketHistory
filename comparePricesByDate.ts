@@ -124,7 +124,7 @@ async function runMarketWatcher() {
         if (cardCount > 0) {
             const cardIDList = await getAllCardsOnDate(latestDate)
             console.log("The length of the list of cards",cardIDList.length)
-            let changes = await Promise.all([cardIDList.map(async (cardid)=>{
+            let changes = await Promise.all([...cardIDList.map(async (cardid)=>{
                 console.log("processing", cardid["cardid"])
                 return  await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
 
