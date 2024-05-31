@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: 'pokemon.sqlite', 
-    logging:false
+    logging:true
 });
 export const PokemonCards = sequelize.define('PokemonCards', {
     carduuid: DataTypes.UUIDV4,
