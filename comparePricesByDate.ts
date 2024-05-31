@@ -136,7 +136,8 @@ async function runMarketWatcher() {
                 return {...change}
             })
             console.log("loading all changes to db")
-            await MarketChanges.bulkCreate(thenewChanges)
+            console.log(thenewChanges)
+            //await MarketChanges.bulkCreate(thenewChanges)
            
         }
     }
