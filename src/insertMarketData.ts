@@ -46,8 +46,9 @@ export default async function insertMarketData(dailyMarketData: DailyMarketData)
                 }
             })
             if(existingCount === 0){
-               const insertedChanges = await MarketChanges.create(marketChanges) 
-               return insertedChanges
+                console.log(marketChanges.cardid)
+               //const insertedChanges = await MarketChanges.create(marketChanges) 
+               return marketChanges
             }
             else{
                 return false

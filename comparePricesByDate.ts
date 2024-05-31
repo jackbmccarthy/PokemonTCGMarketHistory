@@ -1,9 +1,11 @@
-import { PokemonCards } from "./database";
+import { Optional } from "sequelize";
+import { MarketChanges, PokemonCards } from "./database";
 import getAllCardsOnDate from "./src/getAllCardsOnDate";
 import getCountOfCardsOnDate from "./src/getCountOfCardsOnDate";
 import getLatestTCGPlayerPriceDate from "./src/getLatestTCGPlayerDate";
 import insertMarketData from "./src/insertMarketData";
 import { PokemonCardType } from "./types/PokemondCard";
+import { MarketChangesType } from "./types/MarketChanges";
 
 
 async function comparePricesByDate(cardId: string, startDate: string, endDate: string) {
@@ -122,11 +124,19 @@ async function runMarketWatcher() {
         if (cardCount > 0) {
             const cardIDList = await getAllCardsOnDate(latestDate)
             console.log("The length of the list of cards",cardIDList.length)
-            await Promise.all([cardIDList.map(async (cardid)=>{
+            let changes = await Promise.all([cardIDList.map(async (cardid)=>{
                 console.log("processing", cardid["cardid"])
-                 await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
+                return  await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
 
             })])
+            let newChanges = changes.filter((change)=>{
+                return change ? true :false
+            })
+            let thenewChanges = newChanges.map((change)=>{
+                return {...change}
+            })
+            console.log("loading all changes to db")
+            await MarketChanges.bulkCreate(thenewChanges)
            
         }
     }
