@@ -18,7 +18,7 @@ export default async function insertMarketData(dailyMarketData: DailyMarketData)
             if (data && data.holoPriceChange && data.holoPriceChangePercent) {
                 marketChanges.startcarduuid1 = data.start.carduuid
                 marketChanges.endcarduuid1 = data.end.carduuid
-                console.log(data.isHoloPriceChangePositive, data.holoPriceChange)
+                //console.log(data.isHoloPriceChangePositive, data.holoPriceChange)
                 marketChanges.pricechangedollars1 = -1 * data.holoPriceChange
                 marketChanges.pricechangepercent1 = -1 * parseFloat(data.holoPriceChangePercent)
             }

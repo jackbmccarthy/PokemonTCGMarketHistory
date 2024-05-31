@@ -64,13 +64,14 @@ async function comparePricesByDate(cardId: string, startDate: string, endDate: s
 
 
 async function getMarketAdjustments(cardId: string) {
-    const today = new Date(new Date().setHours(0, 0, 0, 0))
-    const yesterday = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(new Date().getDate() - 1))
-    const dayBeforeyesterday = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(new Date().getDate() - 1))
-    const sevenDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(new Date().getDate() - 7))
-    const eightDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(new Date().getDate() - 8))
-    const thirtyDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(new Date().getDate() - 30))
-    const thirtyOneDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(new Date().getDate() - 31))
+    //const today = new Date(new Date().setHours(0, 0, 0, 0))
+    const today = new Date(await getLatestTCGPlayerPriceDate())
+    const yesterday = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 1))
+    const dayBeforeyesterday = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 2))
+    const sevenDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 7))
+    const eightDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 8))
+    const thirtyDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 30))
+    const thirtyOneDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 31))
     //console.log(today, yesterday)
     //console.log(comparePricesByDate("sv4pt5-186", "2024-05-08", "2024-05-09"))
     // Get 1 day difference

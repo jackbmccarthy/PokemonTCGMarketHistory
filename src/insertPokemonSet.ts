@@ -5,7 +5,7 @@ import { PokemonCardType } from "../types/PokemondCard";
 
 export default async function insertPokemonSetToDatabase(pokemonSet:PokemonTCG.Set){
     
-console.log(pokemonSet)
+//console.log(pokemonSet)
     const cardExistsCount = await PokemonSets.count({
         where: {
             setid : pokemonSet.id
