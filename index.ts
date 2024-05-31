@@ -18,7 +18,7 @@ async function downloadCardInfo(seriesName: SupportedSeries) {
         const cardsInSet = await getCardsInSet(cardSet.id, cardSet.total)
 
         for (const card of cardsInSet) {
-            console.log(card)
+            //console.log(card)
             const pokemonCard = extractCardData(card)
             await insertPokemonCardToDatabase(pokemonCard)
         }
