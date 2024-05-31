@@ -76,15 +76,21 @@ async function getMarketAdjustments(cardId: string) {
     //console.log(comparePricesByDate("sv4pt5-186", "2024-05-08", "2024-05-09"))
     // Get 1 day difference
 
-    let market1 = await comparePricesByDate(cardId, yesterday.toISOString(), today.toISOString())
+    let [market1, market7, market30] = await Promise.all([
+        comparePricesByDate(cardId, yesterday.toISOString(), today.toISOString()), 
+        comparePricesByDate(cardId, sevenDaysAgo.toISOString(), today.toISOString()),
+        comparePricesByDate(cardId, thirtyDaysAgo.toISOString(), today.toISOString())
+    ])
+
+ 
     if (!market1) {
         market1 = await comparePricesByDate(cardId, dayBeforeyesterday.toISOString(), today.toISOString())
     }
-    let market7 = await comparePricesByDate(cardId, sevenDaysAgo.toISOString(), today.toISOString())
+  
     if (!market7) {
         market7 = await comparePricesByDate(cardId, eightDaysAgo.toISOString(), today.toISOString())
     }
-    let market30 = await comparePricesByDate(cardId, thirtyDaysAgo.toISOString(), today.toISOString())
+
     if (!market30) {
         market30 = await comparePricesByDate(cardId, thirtyOneDaysAgo.toISOString(), today.toISOString())
     }
@@ -109,14 +115,18 @@ async function getMarketAdjustments(cardId: string) {
 
 async function runMarketWatcher() {
     let latestDate = await getLatestTCGPlayerPriceDate()
+    console.log("Processing cards on date", latestDate)
     if (typeof latestDate === "string") {
         const cardCount = await getCountOfCardsOnDate(latestDate)
+        console.log("There are this many cards for this day", cardCount)
         if (cardCount > 0) {
             const cardIDList = await getAllCardsOnDate(latestDate)
-            for (const cardid of cardIDList) {
+            console.log("The length of the list of cards",cardIDList.length)
+            await Promise.all([cardIDList.map(async (cardid)=>{
                  await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
 
-            }
+            })])
+           
         }
     }
 

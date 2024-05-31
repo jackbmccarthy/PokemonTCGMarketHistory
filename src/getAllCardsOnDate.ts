@@ -6,7 +6,8 @@ export default async function getAllCardsOnDate(date:string){
         attributes: ["cardid"],
         where:{
             tcgplayerpricedate:date
-        }
+        },
+        group:["cardid"]
     })
     if(result.length > 0 ){
         return result.map((card)=>{
