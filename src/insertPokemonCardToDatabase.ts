@@ -15,6 +15,6 @@ export default async function insertPokemonCardToDatabase(pokemonCard:PokemonCar
        await  PokemonCards.create(pokemonCard)
     }
     else{
-        console.log("card exists:", pokemonCard.cardid)
+        console.log("card exists:", pokemonCard.cardid, pokemonCard.tcgplayerpricedate)
     }
 }
