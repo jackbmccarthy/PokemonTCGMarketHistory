@@ -41,4 +41,39 @@ export const MarketChanges = sequelize.define('MarketChanges', {
     
 });
 
+export const PokemonSets = sequelize.define('PokemonSets', {
+    setkey: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+        autoIncrement: true
+      },
+      setid: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      setname: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      setlogourl: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      setsymbolurl: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      setreleasedate: {
+        type: DataTypes.DATE,
+        allowNull: false
+      }
+  }, {
+    timestamps: true,
+    paranoid: true,
+    freezeTableName: true,
+
+  });
+
 sequelize.sync()
