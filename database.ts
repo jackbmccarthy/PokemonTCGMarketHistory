@@ -1,12 +1,18 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
+require('@dotenvx/dotenvx').config()
+
 const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: 'pokemon.sqlite', 
-    logging:true
+    dialect: 'postgres',
+    host:process.env.SQL_HOST,
+   // storage: 'pokemon.sqlite', 
+    database:"Pokemon",
+    username:process.env.SQL_USERNAME,
+    password: process.env.SQL_PASSWORD,
+    logging:false
 });
 export const PokemonCards = sequelize.define('PokemonCards', {
-    carduuid: DataTypes.UUIDV4,
+    carduuid: DataTypes.UUID,
     cardid: DataTypes.STRING,
     name: DataTypes.STRING,
     supertype: DataTypes.STRING,
@@ -22,16 +28,16 @@ export const PokemonCards = sequelize.define('PokemonCards', {
 });
 
 export const MarketChanges = sequelize.define('MarketChanges', {
-    marketchangeuuid:DataTypes.UUIDV4,
+    marketchangeuuid:DataTypes.UUID,
     pricedate:DataTypes.DATE,
     cardid: DataTypes.STRING,
     cardtype:DataTypes.STRING,
-    startcarduuid1: DataTypes.UUIDV4,
-    endcarduuid1:DataTypes.UUIDV4,
-    startcarduuid7: DataTypes.UUIDV4,
-    endcarduuid7:DataTypes.UUIDV4,
-    startcarduuid30: DataTypes.UUIDV4,
-    endcarduuid30:DataTypes.UUIDV4,
+    startcarduuid1: DataTypes.UUID,
+    endcarduuid1:DataTypes.UUID,
+    startcarduuid7: DataTypes.UUID,
+    endcarduuid7:DataTypes.UUID,
+    startcarduuid30: DataTypes.UUID,
+    endcarduuid30:DataTypes.UUID,
     pricechangedollars1: DataTypes.FLOAT,
     pricechangepercent1: DataTypes.FLOAT,
     pricechangedollars7: DataTypes.FLOAT,

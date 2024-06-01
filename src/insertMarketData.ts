@@ -41,13 +41,13 @@ export default async function insertMarketData(dailyMarketData: DailyMarketData)
 
             let existingCount = await MarketChanges.count({
                 where:{
-                    priceDate: marketChanges.pricedate,
+                    pricedate: marketChanges.pricedate,
                     cardid:marketChanges.cardid
                 }
             })
             if(existingCount === 0){
-                console.log(marketChanges.cardid)
-               //const insertedChanges = await MarketChanges.create(marketChanges) 
+                console.log("Inserting market changes for ", marketChanges.cardid)
+               const insertedChanges = await MarketChanges.create(marketChanges) 
                return marketChanges
             }
             else{

@@ -10,20 +10,24 @@ import { MarketChangesType } from "./types/MarketChanges";
 
 async function comparePricesByDate(cardId: string, startDate: string, endDate: string) {
 
-    let [startCard, endCard] = await Promise.all([
-        PokemonCards.findOne(({
+    // let [startCard, endCard] = await Promise.all([
+    //     ,
+        
+    // ])
+
+    const startCard = await PokemonCards.findOne(({
             where: <PokemonCardType>{
                 cardid: cardId,
                 tcgplayerpricedate: startDate,
             }
-        })),
-        PokemonCards.findOne(({
+        }))
+
+        const endCard = await PokemonCards.findOne(({
             where: <PokemonCardType>{
                 cardid: cardId,
                 tcgplayerpricedate: endDate,
             }
         }))
-    ])
 
     let startJSON = startCard?.toJSON<PokemonCardType>()
     let endJSON = endCard?.toJSON<PokemonCardType>()
@@ -65,9 +69,9 @@ async function comparePricesByDate(cardId: string, startDate: string, endDate: s
 
 
 
-async function getMarketAdjustments(cardId: string) {
+async function getMarketAdjustments(cardId: string, latestDate:Date|string = new Date(new Date().setHours(0, 0, 0, 0))) {
     //const today = new Date(new Date().setHours(0, 0, 0, 0))
-    const today = new Date(await getLatestTCGPlayerPriceDate())
+    const today = new Date(latestDate)
     const yesterday = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 1))
     const dayBeforeyesterday = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 2))
     const sevenDaysAgo = new Date(new Date(new Date().setHours(0, 0, 0, 0)).setDate(today.getDate() - 7))
@@ -78,11 +82,11 @@ async function getMarketAdjustments(cardId: string) {
     //console.log(comparePricesByDate("sv4pt5-186", "2024-05-08", "2024-05-09"))
     // Get 1 day difference
 
-    let [market1, market7, market30] = await Promise.all([
-        comparePricesByDate(cardId, yesterday.toISOString(), today.toISOString()), 
-        comparePricesByDate(cardId, sevenDaysAgo.toISOString(), today.toISOString()),
-        comparePricesByDate(cardId, thirtyDaysAgo.toISOString(), today.toISOString())
-    ])
+    let [market1, market7, market30] = [
+        await comparePricesByDate(cardId, yesterday.toISOString(), today.toISOString()), 
+        await comparePricesByDate(cardId, sevenDaysAgo.toISOString(), today.toISOString()),
+        await comparePricesByDate(cardId, thirtyDaysAgo.toISOString(), today.toISOString())
+    ]
 
  
     if (!market1) {
@@ -124,19 +128,22 @@ async function runMarketWatcher() {
         if (cardCount > 0) {
             const cardIDList = await getAllCardsOnDate(latestDate)
             console.log("The length of the list of cards",cardIDList.length)
-            let changes = await Promise.all([...cardIDList.map(async (cardid)=>{
-                console.log("processing", cardid["cardid"])
-                return  await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
+            for (const cardid of cardIDList) {
+                await insertMarketData(await getMarketAdjustments(cardid["cardid"]))
+            }
+            // let changes = await Promise.all([...cardIDList.map(async (cardid)=>{
+            //     console.log("processing", cardid["cardid"])
+            //     return  
 
-            })])
-            let newChanges = changes.filter((change)=>{
-                return change ? true :false
-            })
-            let thenewChanges = newChanges.map((change)=>{
-                return {...change}
-            })
-            console.log("loading all changes to db")
-            console.log(thenewChanges)
+            // })])
+            // let newChanges = changes.filter((change)=>{
+            //     return change ? true :false
+            // })
+            // let thenewChanges = newChanges.map((change)=>{
+            //     return {...change}
+            // })
+            // console.log("loading all changes to db")
+            // console.log(thenewChanges)
             //await MarketChanges.bulkCreate(thenewChanges)
            
         }
